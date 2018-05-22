@@ -1,0 +1,42 @@
+1 首先启动 com.nettyrpc.server.RpcServer   启动netty 服务
+
+
+2  向zookeeper里面注册服务 (192.168.137.87:8080,192.168.137.86:8080....)
+
+
+3 服务器接受 reqeust对象 进行 处理 处理完之后 返回response
+ 3.1 netty读到数据以后 利用反射机制 执行服务端代码  可以获取类名 方法名 参数 所以可以反射执行方法
+
+
+
+
+
+threadPoolExecutor
+
+
+
+1  启动client的时候 从服务中心zookeeper中获取datalist(192.168.137.87:8080,192.168.137.86:8080....)  遍历所有的节点 
+如果发现没有和服务端链接 就先建立连接（connectServerNode） 建立链接后返回handler对象 存在list中   启动任务完成
+
+     1.1 在启动client的时候已经建立好链接 拿到 clienthanlder 对象   
+
+	 1.2 是因为 有 ###ServiceDiscovery@@@@@@@@@@ 对象  发现服务里面建立了和netty的链接   (netty只是 在项目Spring_netty中有)
+
+    1.3 建立好链接之后 只要能获取 handler对象就ok
+
+     1.4 handler 发送 request对象 给服务器 
+2 客户端在发送请求的时候 MemService memservice = rpcClient.create(MemService.class); 
+  	2.1通过注解获取接口的实现类
+  	2.2 在执行的类方法的时候通过动态代理 增加功能 获取类名 方法名 参数 封装到request中   
+  	2.3 获取之前客户端建立好的链接处理对象 handler  RpcClientHandler handler = ConnectManage.getInstance().chooseHandler(); 发送数据给服务端 handler.sendData(request)
+  	
+  	
+  	
+  
+  
+  1 测试用例 先启动 server里面的  RpcBootstrap 开启服务 
+  2 测试用例在 demo  MemServiceTest 里面 有 save get 测试 包括了传参和返回数据操作
+  
+  
+  用到技术总结  netty zookeeper  动态代理 反射  多线程 注解
+   

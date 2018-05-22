@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c3p0-config>
+	<default-config>
+		<property name="initialPoolSize">15</property>
+		<property name="maxPoolSize">20</property>
+		<property name="driverClass">com.mysql.jdbc.Driver</property>
+		<property name="jdbcUrl">jdbc:mysql://192.168.137.80:3306/oadata</property>
+		<property name="user">root</property>
+		<property name="password">123456</property>
+		
+		
+		          <property name="checkoutTimeout" value="50000"/>  
+		          
+		          <property name="unreturnedConnectionTimeout" value="50000" /> 
+		
+	</default-config>
+	
+</c3p0-config>
