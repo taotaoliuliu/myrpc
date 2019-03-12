@@ -104,19 +104,19 @@ public class RPCFuture implements Future<Object> {
         }
     }
 
-    public RPCFuture addCallback(AsyncRPCCallback callback) {
-        lock.lock();
-        try {
-            if (isDone()) {
-                runCallback(callback);
-            } else {
-                this.pendingCallbacks.add(callback);
-            }
-        } finally {
-            lock.unlock();
-        }
-        return this;
-    }
+//    public RPCFuture addCallback(AsyncRPCCallback callback) {
+//        lock.lock();
+//        try {
+//            if (isDone()) {
+//                runCallback(callback);
+//            } else {
+//                this.pendingCallbacks.add(callback);
+//            }
+//        } finally {
+//            lock.unlock();
+//        }
+//        return this;
+//    }
 
     private void runCallback(final AsyncRPCCallback callback) {
         final RpcResponse res = this.response;
@@ -141,7 +141,7 @@ public class RPCFuture implements Future<Object> {
         private final int pending = 0;
 
         
-     // 当状态为0的时候获取锁
+     // 当状态为0的时候获取锁   false 挂起
         protected boolean tryAcquire(int acquires) {
             return getState() == done ? true : false;
         }
